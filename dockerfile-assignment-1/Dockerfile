@@ -1,5 +1,20 @@
 # use this empty Dockerfile to build your assignment
+FROM node:6.17.0-alpine
 
+RUN apk add --update tini
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY package.json package.json
+RUN npm install && npm cache clean --force
+# COPY app.js app.js
+# COPY bin bin
+# COPY public public
+# COPY routes routes
+# COPY views views
+# EXPOSE 3000
+COPY . .
+RUN echo $(pwd)
+CMD ["tini","--","node","./bin/www.js"]
 # This dir contains a Node.js app, you need to get it running in a container
 # No modifications to the app should be necessary, only edit this Dockerfile
 
