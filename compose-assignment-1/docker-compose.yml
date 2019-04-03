@@ -2,10 +2,7 @@ version: '3.1'
 
 services: 
   drupal:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: custom-drupal
+    image: drupal
     ports: 
     - "8080:80"
     volumes: 
@@ -15,17 +12,17 @@ services:
     - drupal-sites:/var/www/html/sites
 
   postgres:
-    image: postgres:9.6
+    image: postgres
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
     volumes:
-      - drupal-data:/var/lib/postgresql/data
+      - psql-data:/var/lib/postgresql/data
     ports: 
     - "5432:5432"
 
 volumes:
-  drupal-data:
+  psql-data:
   drupal-modules:
   drupal-profiles:
   drupal-themes:

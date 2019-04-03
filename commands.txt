@@ -80,7 +80,15 @@ docker container run -v //users/akila/stuff:/path/container     (windows)
 docker container run -d --name nginx -p 80:80 -v $(pwd):/usr/share/nginx/html nginx
 docker container run -d --name nginx -p 80:80 -v ${pwd}:/usr/share/nginx/html nginx
 docker container run -d --name nginx -p 80:80 -v /${pwd}:/usr/share/nginx/html nginx
+docker run -p 80:4000 -v $(pwd):/site bretfisher/jekyll-serve
 
-
+docker-compose up
+docker-compose up -d
+docker-compose logs
+docker-compose ps
+docker-compose top
+docker-compose down
+docker-compose down -v
+docker-compose down -v --rmi local
 
 
