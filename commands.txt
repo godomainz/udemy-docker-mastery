@@ -1,0 +1,86 @@
+docker container start
+docker container stop
+docker container start -ai ubuntu
+
+
+docker container run -d --name mysql -e MYSQL_RANDOM_ROOT_PASSWORD=true mysql
+docker container run -d -p 80:80 --name ginx nginx
+docker container top mysql
+docker container inspect mysql
+docker container stats
+docker container ls
+docker container ls -a
+
+
+docker container run -it
+docker container run -it --name ubuntu ubuntu
+docker container start -ai ubuntu
+docker container start ubuntu
+
+docker container exec -it mysql bash (will keep the container running)
+
+
+docker pull alpine
+docker image ls
+
+docker container run -p
+docker container run -p 80:80 --name webhost -d nginx
+docker container port webhost
+docker container inspect --format '{{.NetworkSettings.IPAddress}}' webhost
+
+docker network ls
+docker network inspect
+docker network create my_app_net
+docker network create --driver
+docker network connect
+docker network disconnect
+docker container run -d --name new_nginx --network my_app_net nginx
+
+docker network connect 31a99139737606ab a19d3ce52813751
+docker network connect NewNetWorkID ContainerID
+docker container inspect new_nginx
+
+docker network disconnect 5994a395cad15ffabbc 763e6555724552aa1
+docker network connect NewNetWorkID ContainerID
+docker container inspect webhost
+
+docker container run -d --name my_nginx --network my_app_net nginx
+docker container exec -it my_nginx ping new_nginx
+
+docker container run --rm -it centos:7 bash
+
+docker network create dude
+docker run -d --net dude --net-alias search elasticsearch:2
+docker run -d --net dude --net-alias search elasticsearch:2
+docker container run --rm --net dude alpine nslookup search
+docker container run --rm --net dude centos curl -s search:9200
+
+
+docker image ls
+docker history nginx:latest
+docker history mysql
+docker image tag nginx godomainz/nginx
+docker image tag godomainz/nginx godomainz/nginx:testing
+
+
+docker image build -t customnginx .
+
+docker volume ls
+docker container run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=true -v mysql-db:/var/lib/mysql mysql
+docker volume inspect mysql-db
+docker volume create --help
+
+docker container run -d --name psql1 -v psql-db:/var/lib/postgresql/data postgres:9.6.1
+
+
+Bind Mounting
+
+docker container run -v /users/akila/stuff:/path/container     (mac/linux)
+docker container run -v //users/akila/stuff:/path/container     (windows)
+docker container run -d --name nginx -p 80:80 -v $(pwd):/usr/share/nginx/html nginx
+docker container run -d --name nginx -p 80:80 -v ${pwd}:/usr/share/nginx/html nginx
+docker container run -d --name nginx -p 80:80 -v /${pwd}:/usr/share/nginx/html nginx
+
+
+
+
