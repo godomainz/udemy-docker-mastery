@@ -95,6 +95,7 @@ docker-compose down -v --rmi local
 Docker Swarm
 docker-machine ls
 docker-machine create
+docker swarm init
 docker swarm init  --advertise-addr $(docker-machine ip default)
 docker node ls
 
@@ -103,3 +104,34 @@ docker service ls
 docker service ps epic_neumann
 docker service update epic_neumann --replicas 3
 docker service rm epic_neumann
+
+
+docker swarm init
+docker swarm join
+docker node ls
+docker node update --role manager node2
+docker swarm join-token manager
+docker service create --replicas 3 alpine ping 8.8.8.8
+docker node ps
+docker node ps node3
+docker service ps psql
+
+docker network create --driver overlay mydrupal
+docker service create --name psql --network mydrupal -e POSTGRES_PASSWORD=mypass postgres
+docker service ls
+docker service ps psql
+
+docker service create --name drupal --network mydrupal -p 80:80 drupal
+docker service create --name nginx --network mydrupal -p 8080:80 nginx
+
+docker service inspect drupal
+
+docker service create --name search --replicas 3 -p 9200:9200 elasticsearch:2
+
+docker network create --driver overlay backend
+docker network create --driver overlay frontend
+docker service create --name vote --network frontend --replicas 2 -p 80:80 dockersamples/examplevotingapp_vote:before
+docker service create --name redis --network frontend redis:3.2
+docker service create --name worker --network frontend --network backend dockersamples/examplevotingapp_worker
+docker service create --name db --network backend --mount type=volume,source=db-data,target=/var/lib/postgresql/data postgres:9.4
+docker service create --name result --network backend -p 5001:80 dockersamples/examplevotingapp_result:before
