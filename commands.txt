@@ -162,3 +162,31 @@ echo password | docker secret create psql_pass3 -
 docker stack deploy -c docker-compose.yml mydrupal
 
 echo|set /p="Hello World"
+
+docker-compose exec psql cat /run/secrets/psql_user
+
+docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up config > output.yml
+
+docker service update --image myapp:1.2.1 <servicename>
+docker service update --env-add NODE_ENV=production  --publish-rm 8080 web
+docker service scale web=8 api=6
+docker service update --publish-rm 8080 --publish-add=9080:80 web
+docker service update --force web
+
+
+docker container run \
+	--health-cmd="curl -f localhost:9200/_cluser/health || false" \
+	--health-interval=5s \
+	--health-retries=3 \
+	--health-timeout=2s \
+	--health-start-period=15s \
+	elasticsearch:2
+	
+	
+HEALTHCHECK curl -f http://localhost/ || false
+HEALTHCHECK --timeouts=2s --interval=3s --retries=3 \
+CMD curl -f http://localhost/ || exit 1
+
+
+docker service create --name p2 --health-cmd"pg_isready -U postgres || exit 1" postgres
