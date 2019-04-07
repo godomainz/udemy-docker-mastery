@@ -160,3 +160,5 @@ windows
 
 echo password | docker secret create psql_pass3 -
 docker stack deploy -c docker-compose.yml mydrupal
+
+echo|set /p="Hello World"
